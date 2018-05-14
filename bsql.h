@@ -5,10 +5,9 @@ enum command_t {
 };
 typedef enum command_t command_t;
 
-struct Command {
+typedef struct {
   command_t type;
-};
-typedef struct Command Command;
+} Command;
 
 enum statement_t {
   STATEMENT_SELECT,
@@ -17,7 +16,6 @@ enum statement_t {
 };
 typedef enum statement_t statement_t;
 
-struct Statement {
+typedef struct {
   statement_t type;
-};
-typedef struct Statement Statement;
+} Statement;
