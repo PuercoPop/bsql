@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 
 #include "bsql.h"
 
@@ -70,6 +71,7 @@ main(int argc, char *argv[])
 {
   for(;;){
     input = readline(prompt);
+    add_history(input);
     if (!input) perror("Couldn't read from the REPL.");
 
     if(input[0] == '.') {
@@ -78,9 +80,9 @@ main(int argc, char *argv[])
     } else {
       Statement statement = parse_statement(input);
       execute_statement(statement);
-      
-        
     }
+
+    free(input);
   }
 
   return EXIT_SUCCESS;
