@@ -34,26 +34,9 @@ parse_statement(char *input)
   return ret;
 }
 
-int
-main(int argc, char *argv[])
-{
-  for(;;){
-    input = readline(prompt);
-    if (!input) perror("Couldn't read from the REPL.");
-
-    if(input[0] == '.') {
-      meta_command_t command = parse_command(input);
-        switch(command) {
-        case META_COMMAND_EXIT:
-          return EXIT_SUCCESS;
-          break;
-        case META_COMMAND_UNRECOGNIZED_COMMAND:
-          printf("Unrecognized command: %s\n", input);
-          break;
-        }
-    } else {
-      Statement statement = parse_statement(input);
-      switch (statement.type) {
+void
+execute_statement(Statement statement) {
+  switch (statement.type) {
       case SELECT_STATEMENT:
         printf("IOU a SELECT.\n");
         break;
@@ -64,6 +47,30 @@ main(int argc, char *argv[])
         printf("Unrecognized statement: %s\n", input);
         break;
       }
+}
+
+int
+main(int argc, char *argv[])
+{
+  for(;;){
+    input = readline(prompt);
+    if (!input) perror("Couldn't read from the REPL.");
+
+    if(input[0] == '.') {
+      meta_command_t command = parse_command(input);
+      execute_command(command)
+        switch(command) {
+        case META_COMMAND_EXIT:
+          return EXIT_SUCCESS;
+          break;
+        case META_COMMAND_UNRECOGNIZED_COMMAND:
+          printf("Unrecognized command: %s\n", input);
+          break;
+        }
+    } else {
+      Statement statement = parse_statement(input);
+      execute_statement(statement);
+      
         
     }
   }
