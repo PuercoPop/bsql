@@ -18,14 +18,18 @@ parse_command(char *input)
     return META_COMMAND_UNRECOGNIZED_COMMAND;
 }
 
-statement_t
+Statement
 parse_statement(char *input)
 {
+  Statement ret;
+
   if((strncmp("select", input, 6) == 0)) {
-    return PREPARE_SUCCESS;
+    ret.type = PREPARE_SUCCESS;
+  } else {
+    ret.type = PREPARE_UNRECOGNIZE_STATEMENT;
   }
 
-  return PREPARE_UNRECOGNIZE_STATEMENT;
+  return ret;
 }
 
 int
@@ -46,9 +50,10 @@ main(int argc, char *argv[])
           break;
         }
     } else {
-      statement_t statement = parse_statement(input);
-      switch (statement) {
+      Statement statement = parse_statement(input);
+      switch (statement.type) {
       case PREPARE_SUCCESS:
+        printf("Statement successfully recognized\n");
         break;
       case PREPARE_UNRECOGNIZE_STATEMENT:
         printf("Unrecognized statement: %s\n", input);

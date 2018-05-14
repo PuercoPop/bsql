@@ -10,3 +10,8 @@ enum statement_t {
   PREPARE_UNRECOGNIZE_STATEMENT
 };
 typedef enum statement_t statement_t;
+
+struct Statement {
+  statement_t type;
+};
+typedef struct Statement Statement;
