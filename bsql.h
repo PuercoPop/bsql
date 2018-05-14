@@ -6,8 +6,9 @@ enum meta_command_t {
 typedef enum meta_command_t meta_command_t;
 
 enum statement_t {
-  PREPARE_SUCCESS,
-  PREPARE_UNRECOGNIZE_STATEMENT
+  SELECT_STATEMENT,
+  INSERT_STATEMENT,
+  UNRECOGNIZED_STATEMENT
 };
 typedef enum statement_t statement_t;
 

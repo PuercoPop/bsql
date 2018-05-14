@@ -24,9 +24,11 @@ parse_statement(char *input)
   Statement ret;
 
   if((strncmp("select", input, 6) == 0)) {
-    ret.type = PREPARE_SUCCESS;
+    ret.type = SELECT_STATEMENT;
+  } else if (strncmp("insert", input, 6) == 0) {
+    ret.type = INSERT_STATEMENT;
   } else {
-    ret.type = PREPARE_UNRECOGNIZE_STATEMENT;
+    ret.type = UNRECOGNIZED_STATEMENT;
   }
 
   return ret;
@@ -52,11 +54,15 @@ main(int argc, char *argv[])
     } else {
       Statement statement = parse_statement(input);
       switch (statement.type) {
-      case PREPARE_SUCCESS:
-        printf("Statement successfully recognized\n");
+      case SELECT_STATEMENT:
+        printf("IOU a SELECT.\n");
         break;
-      case PREPARE_UNRECOGNIZE_STATEMENT:
+      case INSERT_STATEMENT:
+        printf("IOU an INSERT.\n");
+        break;
+      case UNRECOGNIZED_STATEMENT:
         printf("Unrecognized statement: %s\n", input);
+        break;
       }
         
     }
