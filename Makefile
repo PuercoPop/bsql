@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=c99 -Wall -Werror -pedantic
+CFLAGS = -std=c99 -Wall -Werror -pedantic -g
 INCS = -I/usr/include
 LIBS = -L/usr/lib -lc -lreadline
 
