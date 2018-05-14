@@ -1,9 +1,14 @@
 /* MetaCommands start with . */
-enum meta_command_t {
-  META_COMMAND_EXIT,
-  META_COMMAND_UNRECOGNIZED_COMMAND
+enum command_t {
+  COMMAND_EXIT,
+  COMMAND_NOT_RECOGNIZED
 };
-typedef enum meta_command_t meta_command_t;
+typedef enum command_t command_t;
+
+struct Command {
+  command_t type;
+};
+typedef struct Command Command;
 
 enum statement_t {
   SELECT_STATEMENT,

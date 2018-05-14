@@ -9,13 +9,29 @@ char *input;
 char *prompt = "db> ";
 
 
-meta_command_t
+Command
 parse_command(char *input)
 {
+  Command ret;
+
   if ((strncmp(".exit", input, 5) == 0)) {
-      return META_COMMAND_EXIT;
-    }
-    return META_COMMAND_UNRECOGNIZED_COMMAND;
+      ret.type = COMMAND_EXIT;
+  } else {
+    ret.type = COMMAND_NOT_RECOGNIZED;
+  }
+  return ret;
+}
+
+void
+execute_command(Command command) {
+  switch(command.type) {
+  case COMMAND_EXIT:
+    exit(EXIT_SUCCESS);
+    break;
+  case COMMAND_NOT_RECOGNIZED:
+    printf("Unrecognized command: %s\n", input);
+    break;
+  }
 }
 
 Statement
@@ -57,16 +73,8 @@ main(int argc, char *argv[])
     if (!input) perror("Couldn't read from the REPL.");
 
     if(input[0] == '.') {
-      meta_command_t command = parse_command(input);
-      execute_command(command)
-        switch(command) {
-        case META_COMMAND_EXIT:
-          return EXIT_SUCCESS;
-          break;
-        case META_COMMAND_UNRECOGNIZED_COMMAND:
-          printf("Unrecognized command: %s\n", input);
-          break;
-        }
+      Command command = parse_command(input);
+      execute_command(command);
     } else {
       Statement statement = parse_statement(input);
       execute_statement(statement);
