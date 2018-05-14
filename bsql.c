@@ -15,7 +15,7 @@ parse_command(char *input)
   Command ret;
 
   if ((strncmp(".exit", input, 5) == 0)) {
-      ret.type = COMMAND_EXIT;
+    ret.type = COMMAND_EXIT;
   } else {
     ret.type = COMMAND_NOT_RECOGNIZED;
   }
@@ -40,11 +40,11 @@ parse_statement(char *input)
   Statement ret;
 
   if((strncmp("select", input, 6) == 0)) {
-    ret.type = SELECT_STATEMENT;
+    ret.type = STATEMENT_SELECT;
   } else if (strncmp("insert", input, 6) == 0) {
-    ret.type = INSERT_STATEMENT;
+    ret.type = STATEMENT_INSERT;
   } else {
-    ret.type = UNRECOGNIZED_STATEMENT;
+    ret.type = STATEMENT_NOT_RECOGNIZED;
   }
 
   return ret;
@@ -53,16 +53,16 @@ parse_statement(char *input)
 void
 execute_statement(Statement statement) {
   switch (statement.type) {
-      case SELECT_STATEMENT:
-        printf("IOU a SELECT.\n");
-        break;
-      case INSERT_STATEMENT:
-        printf("IOU an INSERT.\n");
-        break;
-      case UNRECOGNIZED_STATEMENT:
-        printf("Unrecognized statement: %s\n", input);
-        break;
-      }
+  case STATEMENT_SELECT:
+    printf("IOU a SELECT.\n");
+    break;
+  case STATEMENT_INSERT:
+    printf("IOU an INSERT.\n");
+    break;
+  case STATEMENT_NOT_RECOGNIZED:
+    printf("Unrecognized statement: %s\n", input);
+    break;
+  }
 }
 
 int

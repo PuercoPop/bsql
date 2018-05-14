@@ -1,4 +1,4 @@
-/* MetaCommands start with . */
+/* Commands start with . */
 enum command_t {
   COMMAND_EXIT,
   COMMAND_NOT_RECOGNIZED
@@ -11,9 +11,9 @@ struct Command {
 typedef struct Command Command;
 
 enum statement_t {
-  SELECT_STATEMENT,
-  INSERT_STATEMENT,
-  UNRECOGNIZED_STATEMENT
+  STATEMENT_SELECT,
+  STATEMENT_INSERT,
+  STATEMENT_NOT_RECOGNIZED
 };
 typedef enum statement_t statement_t;
 
