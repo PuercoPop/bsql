@@ -9,6 +9,26 @@
 char *input;
 char *prompt = "db> ";
 
+#define PATH_MAX 4096
+char *history_file = "";
+
+char *
+get_history_file()
+{
+  if(history_file[0] != '\0')
+    return history_file;
+
+  const char *home = getenv("HOME");
+  if(!home || !*home) {
+    perror("$HOME not set");
+  }
+
+  size_t history_file_len = snprintf(NULL, 0, "%s/.bsql_history", home);
+  history_file = malloc(history_file_len + 1);
+
+  snprintf(history_file, history_file_len + 1, "%s/.bsql_history", home);
+  return history_file;
+}
 
 Command
 parse_command(char *input)
@@ -27,6 +47,7 @@ void
 execute_command(Command command) {
   switch(command.type) {
   case COMMAND_EXIT:
+    write_history(get_history_file());
     exit(EXIT_SUCCESS);
     break;
   case COMMAND_NOT_RECOGNIZED:
@@ -69,6 +90,8 @@ execute_statement(Statement statement) {
 int
 main(int argc, char *argv[])
 {
+  using_history();
+  read_history(get_history_file());
   for(;;){
     input = readline(prompt);
     add_history(input);
