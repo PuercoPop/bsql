@@ -64,11 +64,34 @@ parse_statement(char *input)
   if((strncmp("select", input, 6) == 0)) {
     ret.type = STATEMENT_SELECT;
   } else if (strncmp("insert", input, 6) == 0) {
+    char *keyword = strtok(input, " ");
+    char *id_string = strtok(NULL, " ");
+    char *username = strtok(NULL, " ");
+    char *email = strtok(NULL, " ");
+
+    if(!(strncmp("insert", keyword, 6) == 0))
+      goto statement_error;
+
+    if (id_string == NULL || username == NULL || email == NULL)
+      goto statement_error;
+
+    int row_id = atoi(id_string);
+    if (row_id < 0)
+      goto statement_error;
+
+    ret.row.id = row_id;
+    strcpy(ret.row.username, username);
+    strcpy(ret.row.email, email);
+
+
     ret.type = STATEMENT_INSERT;
   } else {
     ret.type = STATEMENT_NOT_RECOGNIZED;
   }
 
+  return ret;
+ statement_error:
+  ret.type = STATEMENT_NOT_RECOGNIZED;
   return ret;
 }
 
