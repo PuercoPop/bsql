@@ -119,7 +119,14 @@ execute_statement(Statement statement) {
     printf("IOU a SELECT.\n");
     break;
   case STATEMENT_INSERT:
-    printf("IOU an INSERT.\n");
+    if (table->num_rows >= 100)
+      perror("Cannot allocate more rows.");
+
+    table->num_rows++;
+    memcpy(&table->rows[table->num_rows],
+           &statement.row,
+           sizeof(size_t) + COLUMN_USERNAME_SIZE + COLUMN_EMAIL_SIZE);
+    printf("ACK. Current number of Rows: %zu\n", table->num_rows);
     break;
   case STATEMENT_NOT_RECOGNIZED:
     printf("Unrecognized statement: %s\n", input);
