@@ -62,6 +62,21 @@ parse_statement(char *input)
   Statement ret;
 
   if((strncmp("select", input, 6) == 0)) {
+    char *keyword = strtok(input, " ");
+    char *id_string = strtok(NULL, " ");
+
+    if(!(strncmp("select", keyword, 6) == 0))
+      goto statement_error;
+
+    if (id_string == NULL)
+      goto statement_error;
+
+    // Reuse ROW.ID to select 1 row for the time being
+    int row_id = atoi(id_string);
+    if (row_id < 0)
+      goto statement_error;
+
+    ret.row.id = row_id;
     ret.type = STATEMENT_SELECT;
   } else if (strncmp("insert", input, 6) == 0) {
     char *keyword = strtok(input, " ");
