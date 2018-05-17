@@ -9,6 +9,8 @@
 char *input;
 char *prompt = "db> ";
 
+Table *table;
+
 #define PATH_MAX 4096
 char *history_file = "";
 
@@ -128,6 +130,9 @@ execute_statement(Statement statement) {
 int
 main(int argc, char *argv[])
 {
+  table = malloc(sizeof(Table));
+  table->num_rows = 0;
+
   using_history();
   read_history(get_history_file());
   for(;;){
