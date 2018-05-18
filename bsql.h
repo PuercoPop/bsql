@@ -8,7 +8,7 @@ typedef struct {
 } Row;
 
 typedef struct {
-  void *rows[100];
+  Row *rows[100];
   size_t num_rows;
 } Table;
 
