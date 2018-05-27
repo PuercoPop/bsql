@@ -5,3 +5,8 @@ LIBS = -L/usr/lib -lc -lreadline
 
 bsql: bsql.c
 	$(CC) $(CFLAGS) $^ $(INCS) $(LIBS) -o $@
+
+clean:
+	rm bsql
+
+.PHONY: clean
