@@ -146,20 +146,23 @@ execute_statement(Statement statement) {
       break;
     }
 
+    printf("ID: %zu\n", table->rows[row_id].id);
     printf("USERNAME: %s\n", table->rows[row_id].username);
+    printf("EMAIL: %s\n", table->rows[row_id].email);
     break;
   case STATEMENT_INSERT:
     if (table->num_rows >= 100)
       die("Cannot allocate more rows.\n");
 
     table->num_rows++;
+
     memcpy(&table->rows[table->num_rows],
            &statement.row.id,
            sizeof(size_t));
-    memcpy(&table->rows[table->num_rows],
+    memcpy(&table->rows[table->num_rows].username,
            &statement.row.username,
            COLUMN_USERNAME_SIZE);
-    memcpy(&table->rows[table->num_rows],
+    memcpy(&table->rows[table->num_rows].email,
            &statement.row.email,
            COLUMN_EMAIL_SIZE);
     printf("ACK. Current number of Rows: %zu\n", table->num_rows);
