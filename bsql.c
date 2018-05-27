@@ -36,7 +36,7 @@ get_history_file()
 
   const char *home = getenv("HOME");
   if(!home || !*home) {
-    perror("$HOME not set");
+    die("$HOME not set.\n");
   }
 
   size_t history_file_len = snprintf(NULL, 0, "%s/.bsql_history", home);
@@ -141,7 +141,7 @@ execute_statement(Statement statement) {
     break;
   case STATEMENT_INSERT:
     if (table->num_rows >= 100)
-      perror("Cannot allocate more rows.");
+      die("Cannot allocate more rows.\n");
 
     table->num_rows++;
     memcpy(&table->rows[table->num_rows],
@@ -165,7 +165,7 @@ setup()
 
   table = calloc(1, sizeof(Table));
   if (table  == NULL)
-    perror("Could not allocate table.");
+    die("Could not allocate table.\n");
   *table->rows = calloc(100, sizeof(Row));
 
   table->num_rows = 0;
@@ -181,7 +181,7 @@ main(int argc, char *argv[])
   for(;;){
     input = readline(prompt);
     add_history(input);
-    if (!input) perror("Couldn't read from the REPL.");
+    if (!input) die("Couldn't read from the REPL.\n");
 
     if(input[0] == '.') {
       Command command = parse_command(input);
