@@ -145,8 +145,14 @@ execute_statement(Statement statement) {
 
     table->num_rows++;
     memcpy(&table->rows[table->num_rows],
-           &statement.row,
-           sizeof(size_t) + COLUMN_USERNAME_SIZE + COLUMN_EMAIL_SIZE);
+           &statement.row.id,
+           sizeof(size_t));
+    memcpy(&table->rows[table->num_rows],
+           &statement.row.username,
+           COLUMN_USERNAME_SIZE);
+    memcpy(&table->rows[table->num_rows],
+           &statement.row.email,
+           COLUMN_EMAIL_SIZE);
     printf("ACK. Current number of Rows: %zu\n", table->num_rows);
     break;
   case STATEMENT_NOT_RECOGNIZED:
