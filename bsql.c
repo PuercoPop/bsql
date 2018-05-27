@@ -135,10 +135,18 @@ parse_statement(char *input)
 
 void
 execute_statement(Statement statement) {
+  size_t row_id;
+
   switch (statement.type) {
   case STATEMENT_SELECT:
-    printf("IOU a SELECT.\n");
-    break;
+    row_id = statement.row.id;
+
+    if(row_id > table->num_rows) {
+      printf("No such Row\n");
+      break;
+    }
+
+    printf("USERNAME: %s\n", table->rows[row_id]->username);
   case STATEMENT_INSERT:
     if (table->num_rows >= 100)
       die("Cannot allocate more rows.\n");

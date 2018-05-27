@@ -8,11 +8,10 @@ typedef struct {
 } Row;
 
 typedef struct {
-  Row *rows[100];
   size_t num_rows;
+  Row *rows[100];
 } Table;
 
-/* Commands start with . */
 enum command_t {
   COMMAND_EXIT,
   COMMAND_NOT_RECOGNIZED
@@ -34,6 +33,3 @@ typedef struct {
   statement_t type;
   Row row;
 } Statement;
-
-void serialize_row(Row*, void*);
-void deserialize_row(void*, Row*);
