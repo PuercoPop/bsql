@@ -147,6 +147,7 @@ execute_statement(Statement statement) {
     }
 
     printf("USERNAME: %s\n", table->rows[row_id].username);
+    break;
   case STATEMENT_INSERT:
     if (table->num_rows >= 100)
       die("Cannot allocate more rows.\n");
