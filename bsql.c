@@ -146,7 +146,7 @@ execute_statement(Statement statement) {
       break;
     }
 
-    printf("USERNAME: %s\n", table->rows[row_id]->username);
+    printf("USERNAME: %s\n", table->rows[row_id].username);
   case STATEMENT_INSERT:
     if (table->num_rows >= 100)
       die("Cannot allocate more rows.\n");
@@ -180,8 +180,6 @@ setup()
   table = calloc(1, sizeof(Table));
   if (table  == NULL)
     die("Could not allocate table.\n");
-  *table->rows = calloc(100, sizeof(Row));
-
   table->num_rows = 0;
 
   using_history();

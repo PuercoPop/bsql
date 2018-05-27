@@ -9,7 +9,7 @@ typedef struct {
 
 typedef struct {
   size_t num_rows;
-  Row *rows[100];
+  Row rows[100];
 } Table;
 
 enum command_t {
