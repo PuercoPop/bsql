@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=c99 -Wall -Werror -pedantic -g
+CFLAGS = -std=c99 -Wall -Werror -pedantic -g -D_XOPEN_SOURCE
 INCS = -I/usr/include
 LIBS = -L/usr/lib -lc -lreadline
 

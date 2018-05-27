@@ -1,18 +1,32 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
 #include "bsql.h"
 
-char *input;
-char *prompt = "db> ";
+static struct sigaction sa;
 
-Table *table;
+static char *input;
+static char *prompt = "db> ";
 
-#define PATH_MAX 4096
-char *history_file = "";
+static Table *table;
+
+static char *history_file = "";
+
+void
+die(char *msg, ...)
+{
+    va_list ap;
+
+    va_start(ap, msg);
+    vfprintf(stderr, msg, ap);
+    va_end(ap);
+    exit(1);
+}
 
 char *
 get_history_file()
@@ -30,6 +44,13 @@ get_history_file()
 
   snprintf(history_file, history_file_len + 1, "%s/.bsql_history", home);
   return history_file;
+}
+
+void
+sigint(const int signo)
+{
+  write_history(get_history_file());
+  exit(0);
 }
 
 Command
@@ -134,14 +155,29 @@ execute_statement(Statement statement) {
   }
 }
 
-int
-main(int argc, char *argv[])
+void
+setup()
 {
-  table = malloc(sizeof(Table));
+  memset(&sa, 0, sizeof(sa));
+  sa.sa_handler = sigint;
+  if(sigaction(SIGINT, &sa, NULL))
+      die("Could not setup SIGINT handler.\n");
+
+  table = calloc(1, sizeof(Table));
+  if (table  == NULL)
+    perror("Could not allocate table.");
+  *table->rows = calloc(100, sizeof(Row));
+
   table->num_rows = 0;
 
   using_history();
   read_history(get_history_file());
+}
+
+int
+main(int argc, char *argv[])
+{
+  setup();
   for(;;){
     input = readline(prompt);
     add_history(input);
