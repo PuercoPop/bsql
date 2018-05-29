@@ -169,9 +169,9 @@ setup()
         }
 
         size_t history_file_len = snprintf(NULL, 0, "%s/.bsql_history", home);
-        history_file = malloc(history_file_len + 1);
+        history_file = malloc(history_file_len);
 
-        snprintf(history_file, history_file_len + 1, "%s/.bsql_history", home);
+        snprintf(history_file, history_file_len, "%s/.bsql_history", home);
 
         table = calloc(1, sizeof(Table));
         if (table  == NULL)
