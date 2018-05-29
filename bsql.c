@@ -188,8 +188,12 @@ main(int argc, char *argv[])
         setup();
         for(;;){
                 input = readline(prompt);
+                if (!input) {
+                        printf("EOF encountered.\n");
+                        write_history(history_file);
+                        exit(0);
+                }
                 add_history(input);
-                if (!input) die("Couldn't read from the REPL.\n");
 
                 if(input[0] == '.') {
                         Command command = parse_command(input);
