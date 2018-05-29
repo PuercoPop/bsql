@@ -15,7 +15,7 @@ static char *prompt = "db> ";
 
 static Table *table;
 
-static char *history_file = "";
+static char *history_file;
 
 void
 die(char *msg, ...)
@@ -28,28 +28,10 @@ die(char *msg, ...)
         exit(1);
 }
 
-char *
-get_history_file()
-{
-        if(history_file[0] != '\0')
-                return history_file;
-
-        const char *home = getenv("HOME");
-        if(!home || !*home) {
-                die("$HOME not set.\n");
-        }
-
-        size_t history_file_len = snprintf(NULL, 0, "%s/.bsql_history", home);
-        history_file = malloc(history_file_len + 1);
-
-        snprintf(history_file, history_file_len + 1, "%s/.bsql_history", home);
-        return history_file;
-}
-
 void
 sigint(const int signo)
 {
-        write_history(get_history_file());
+        write_history(history_file);
         exit(0);
 }
 
@@ -70,7 +52,7 @@ void
 execute_command(Command command) {
         switch(command.type) {
         case COMMAND_EXIT:
-                write_history(get_history_file());
+                write_history(history_file);
                 exit(EXIT_SUCCESS);
                 break;
         case COMMAND_NOT_RECOGNIZED:
@@ -181,13 +163,23 @@ setup()
         if(sigaction(SIGINT, &sa, NULL))
                 die("Could not setup SIGINT handler.\n");
 
+        const char *home = getenv("HOME");
+        if(!home || !*home) {
+                die("$HOME not set.\n");
+        }
+
+        size_t history_file_len = snprintf(NULL, 0, "%s/.bsql_history", home);
+        history_file = malloc(history_file_len + 1);
+
+        snprintf(history_file, history_file_len + 1, "%s/.bsql_history", home);
+
         table = calloc(1, sizeof(Table));
         if (table  == NULL)
                 die("Could not allocate table.\n");
         table->num_rows = 0;
 
         using_history();
-        read_history(get_history_file());
+        read_history(history_file);
 }
 
 int
