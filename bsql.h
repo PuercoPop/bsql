@@ -12,24 +12,24 @@ typedef struct Table {
         Row rows[100];
 } Table;
 
-enum command_t {
+enum COMMAND_TYPE {
         COMMAND_EXIT,
         COMMAND_NOT_RECOGNIZED
 };
-typedef enum command_t command_t;
+typedef enum COMMAND_TYPE COMMAND_TYPE;
 
 typedef struct Command {
-        command_t type;
+        COMMAND_TYPE type;
 } Command;
 
-enum statement_t {
+enum STATEMENT_TYPE {
         STATEMENT_SELECT,
         STATEMENT_INSERT,
         STATEMENT_NOT_RECOGNIZED
 };
-typedef enum statement_t statement_t;
+typedef enum STATEMENT_TYPE STATEMENT_TYPE;
 
 typedef struct  Statement {
-        statement_t type;
+        STATEMENT_TYPE type;
         Row row;
 } Statement;
