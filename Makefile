@@ -6,6 +6,12 @@ LIBS = -L/usr/lib -lc -lreadline
 bsql: bsql.c
 	$(CC) $(CFLAGS) $^ $(INCS) $(LIBS) -o $@
 
+t: t.c
+	$(CC) $(CFLAGS) $^ $(INCS) $(LIBS) -o $@
+
+buf: buf.c
+	$(CC) $(CFLAGS) -c $^ $(INCS)
+
 clean:
 	rm bsql
 

@@ -1,0 +1,8 @@
+< db>
+> insert 1 fubar@gmail.com
+< Unrecognized statement: insert
+< db>
+> insert 1 fubar2000 fubar@gmail.com
+< ACK. Current number of Rows: 1
+< db>
+> .exit
