@@ -5,6 +5,7 @@
 #include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <stdbool.h>
 
 #include "bsql.h"
 
@@ -25,14 +26,14 @@ die(char *msg, ...)
         va_start(ap, msg);
         vfprintf(stderr, msg, ap);
         va_end(ap);
-        exit(1);
+        exit(EXIT_FAILURE);
 }
 
 void
 sigint(const int signo)
 {
         write_history(history_file);
-        exit(0);
+        exit(EXIT_SUCCESS);
 }
 
 Command
@@ -189,9 +190,9 @@ main(int argc, char *argv[])
         for(;;){
                 input = readline(prompt);
                 if (!input) {
-                        printf("EOF encountered.\n");
+                        printf("EOF.\n");
                         write_history(history_file);
-                        exit(0);
+                        exit(EXIT_SUCCESS);
                 }
                 add_history(input);
 
@@ -206,5 +207,6 @@ main(int argc, char *argv[])
                 free(input);
         }
 
+        free(history_file);
         return EXIT_SUCCESS;
 }
